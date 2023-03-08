@@ -75,6 +75,14 @@ public class Main {
         Osoba osoba2 = new Osoba("Anna", "Nowak", "ul. Krakowska 20, 30-001 Kraków", nr3);
         ksiazkaTelefoniczna.put(nr3, osoba2);
 
+        NrTelefoniczny nr4 = new NrTelefoniczny("12", "311222333");
+        Osoba osoba3 = new Osoba("Kamil", "Stańczyk", "ul. Krakowska 20, 30-001 Kraków", nr3);
+        ksiazkaTelefoniczna.put(nr4, osoba3);
+
+        printPhoneBook(ksiazkaTelefoniczna);
+
+        deleteDuplicates(ksiazkaTelefoniczna);
+
         printPhoneBook(ksiazkaTelefoniczna);
 
     }
@@ -82,9 +90,21 @@ public class Main {
 
 
     public static void deleteDuplicates(TreeMap<NrTelefoniczny, Wpis> ksiazkaTelefoniczna){
-        for(Map.Entry<NrTelefoniczny, Wpis> entry : ksiazkaTelefoniczna.entrySet()){
-            Wpis wpis1 = entry.getValue();
+        Iterator<Map.Entry<NrTelefoniczny, Wpis>> iterator1 = ksiazkaTelefoniczna.entrySet().iterator();
 
+        while (iterator1.hasNext()){
+            Map.Entry<NrTelefoniczny, Wpis> entry = iterator1.next();
+            Wpis wpis1 = entry.getValue();
+            Iterator<Map.Entry<NrTelefoniczny, Wpis>> iterator2 = ksiazkaTelefoniczna.entrySet().iterator();
+            while (iterator2.hasNext()){
+                Map.Entry<NrTelefoniczny, Wpis> entry2 = iterator2.next();
+                Wpis wpis2 = entry2.getValue();
+                if(!wpis1.equals(wpis2) && wpis1.adres.equals(wpis2.adres)){
+                    iterator2.remove();
+                    iterator2 = ksiazkaTelefoniczna.entrySet().iterator();
+                    iterator1 = ksiazkaTelefoniczna.entrySet().iterator();
+                }
+            }
         }
     }
 }
